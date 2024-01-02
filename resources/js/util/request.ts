@@ -3,11 +3,9 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 import {deleteAllCookies, getTokenCookie} from './cookies'
 
-const url = process.env.API_ROUTE
-
 // Create axios instance
 const service = axios.create({
-  baseURL: url,
+  baseURL: '/',
 })
 
 service.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
