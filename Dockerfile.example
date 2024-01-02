@@ -16,7 +16,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # Software's Installation
 #--------------------------------------------------------------------------
 #
-# Installing tools and PHP extentions using "apt", "docker-php", "pecl",
+# Installing tools and PHP extensions using "apt", "docker-php", "pecl",
 #
 
 # Install "curl", "libmemcached-dev", "libpq-dev", "libjpeg-dev",

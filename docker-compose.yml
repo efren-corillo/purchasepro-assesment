@@ -40,20 +40,21 @@ services:
     working_dir: /var/www/html
     entrypoint: ['npm']
 
-  #Mysql DB
+# Mysql DB
   mysql:
     image: mysql:8.0
-    container_name: db
+    container_name: ppro_db
     restart: unless-stopped
     tty: true
+    env_file:
+      - .env
     ports:
-        - "${DB_PORT}:3306"
+      - "${DB_PORT}:3306"
     environment:
-        MYSQL_USER: ${DB_USERNAME}
-        MYSQL_PASSWORD: ${DB_PASSWORD}
-        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-        MYSQL_DATABASE: ${DB_DATABASE}
-    command: --default-authentication-plugin=mysql_native_password
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
     volumes:
       - ./mysql:/var/lib/mysql
     networks:

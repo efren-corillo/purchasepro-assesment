@@ -22,8 +22,12 @@
     </head>
     <body >
         <div id="q-app">
-
         </div>
-	    @vite('resources/js/app.js')
+
+        @if(config('app.env') === 'local')
+            @vite('resources/js/app.js')
+        @else
+            <script type="module" src="{{ app('vite_asset')('resources/js/app.js') }}"></script>
+        @endif
     </body>
 </html>

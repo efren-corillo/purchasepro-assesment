@@ -30,7 +30,7 @@ Docker development implementation for Laravel 9.\* with:
 > - Run seeder: `php artisan db:seed`
 
 > - Install javascript dependencies: `yarn`
-> - Compile the assets: `yarn dev` / `yarn watch`  / `dcoker-compose run npm run dev`
+> - Compile the assets: `yarn dev` / `yarn watch`  / `dcoker-compose run yarn run vite`
 > - You can access the project at: `http://localhost:8000`
 > - or
 > - Install composer dependencies: `docker-compose run php composer install`

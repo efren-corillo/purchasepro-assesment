@@ -1,0 +1,33 @@
+{
+  "compilerOptions" : {
+    "baseUrl" : "./",
+    "paths" : {
+      "@/*" : [
+        "resources/*",
+        "build/*"
+      ],
+      "@images/*" : [
+        "resources/images/*"
+      ],
+      "@assets/*" : [
+        "public/assets/*"
+      ]
+    },
+    "types" : [
+      "node"
+    ],
+    "allowJs" : true,
+    "jsx" : "preserve",
+    "skipLibCheck" : true,
+    "esModuleInterop" : true,
+    "allowSyntheticDefaultImports" : true,
+    "forceConsistentCasingInFileNames" : true,
+    "experimentalDecorators" : true
+  },
+  "include" : [
+    "resources/**/*.ts",
+    "resources/**/*.d.ts",
+    "resources/**/*.tsx",
+    "resources/**/*.vue"
+  ]
+}
