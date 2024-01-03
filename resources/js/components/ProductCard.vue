@@ -24,6 +24,7 @@
 </template>
 
 <script setup>
+  import { ref } from 'vue'
   import { shopStore } from '@/js/store/shop'
 
   const store = shopStore()
@@ -31,6 +32,6 @@
   const props = defineProps( [ 'product' ] )
 
   const addToCart = ( id ) => {
-    store.addToCart(id, 1);
+    store.addToCart( id, 1 )
   }
 </script>

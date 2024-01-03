@@ -13,7 +13,8 @@ Docker development implementation for Laravel 9.\* with:
 
 > - Clone this repository `git clone https://github.com/efren-corillo/purchasepro-assesment`
 > - Make sure you have docker installed on your local machine, you do not need to have php / mysql / redis / node installed on your machine
-
+> # please note that we are just running the db inside docker with a volume. Usually we would 
+> # separate the database from this server and run a different server or service like RDS, dynamoDB, etc..
 > - Copy `.env` file: `cp .env.example .env`
 > - Set the environment variables in `.env` file
 > - Copy `Dockerfile` file: `cp Dockerfile.example Dockerfile`

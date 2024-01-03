@@ -60,6 +60,15 @@ services:
     networks:
       - webapp
 
+  mailhog:
+    image: mailhog/mailhog
+    container_name: ppro_mailhog
+    ports:
+      - "1025:1025" # SMTP server
+      - "8025:8025" # Web interface
+    networks:
+      - webapp
+
   redis:
     image: redis:4.0
     container_name: ppro_redis

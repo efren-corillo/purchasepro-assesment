@@ -33,6 +33,12 @@ const routes = [
         name: "about",
         component: () => import('@/js/pages/About.vue')
         // meta: { requiresAuth: true }
+      },
+      {
+        path: "/cart",
+        name: "cart",
+        component: () => import('@/js/pages/Cart.vue')
+        // meta: { requiresAuth: true }
       }
     ]
   },

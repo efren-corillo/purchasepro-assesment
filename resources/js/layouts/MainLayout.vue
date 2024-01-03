@@ -12,8 +12,11 @@
       </router-view>
     </div>
   </div>
+
+  <ToastNotification />
 </template>
 
 <script setup>
   import TopNavbar from '../components/TopNavbar.vue'
+  import ToastNotification from '@/js/components/ToastNotification.vue'
 </script>
