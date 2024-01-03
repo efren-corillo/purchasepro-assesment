@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Catalog;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -79,5 +80,22 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Returns a list of products related to the category id.
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function listProductByCatalog($id): \Illuminate\Http\JsonResponse
+    {
+        $catalog = Catalog::with('products')->find($id);
+
+        if (!$catalog) {
+            return response()->json(['message' => 'Catalog not found'], 404);
+        }
+
+        return response()->json(['data' => $catalog->products]);
     }
 }

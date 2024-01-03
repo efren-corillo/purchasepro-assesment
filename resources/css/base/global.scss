@@ -70,4 +70,11 @@
 
 .pp-app {
   @apply antialiased text-gray-700;
+
+  .pp_card__button {
+    @apply z-10 rounded-md border border-indigo-700 py-3;
+    @apply cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50;
+    @apply text-center text-base font-medium text-white;
+    @apply bg-indigo-600 hover:bg-indigo-500;
+  }
 }

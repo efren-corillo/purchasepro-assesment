@@ -17,6 +17,12 @@ const routes = [
         // meta: { requiresAuth: true }
       },
       {
+        path: "/products/:id", //required, accepts catalog id.
+        name: "products",
+        component: () => import('@/js/pages/Products.vue')
+        // meta: { requiresAuth: true }
+      },
+      {
         path: "/order-summary",
         name: "order-summary",
         component: () => import('@/js/pages/OrderSummary.vue')

@@ -6,3 +6,9 @@ export function getAllCatalogs() {
     method: 'get'
   } )
 }
+export function getCatalog(id) {
+  return request( {
+    url: `/api/catalog/${id}`,
+    method: 'get'
+  } )
+}

@@ -1,6 +1,9 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
   content: [
     './resources/**/*.blade.php',
+    './storage/framework/views/*.php',
     './resources/**/*.ts',
     './resources/**/*.vue'
   ],
@@ -10,12 +13,14 @@ module.exports = {
         primary: "#0ED3CF"
       },
       fontFamily: {
-        roboto: [ "Roboto", "sans-serif" ]
+        roboto: [ "Roboto", "sans-serif", ...defaultTheme.fontFamily.sans ]
       }
     }
   },
   plugins: [
     require( '@tailwindcss/forms' ),
+    require( '@tailwindcss/typography' ),
     require( '@tailwindcss/aspect-ratio' )
+
   ]
 }
