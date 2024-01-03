@@ -5,6 +5,7 @@
   import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
   import { Bars3Icon, BellIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/vue/24/solid'
   import logo from '@images/logo.png'
+  import CartTopIcon from '@/js/components/CartTopIcon.vue'
 
   const route = useRoute()
 
@@ -81,12 +82,7 @@
               <BellIcon aria-hidden="true" class="h-6 w-6" />
             </button>
 
-            <!-- Cart Dialog -->
-            <button class="pp_top_nav--right-button" type="button">
-              <span class="absolute -inset-1.5" />
-              <span class="sr-only">Open Cart</span>
-              <ShoppingBagIcon aria-hidden="true" class="h-6 w-6" />
-            </button>
+            <cart-top-icon />
 
             <!-- Profile dropdown -->
             <!-- <Menu as="div" class="relative ml-3">

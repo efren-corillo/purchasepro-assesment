@@ -1,65 +1,51 @@
 <template>
-  <div class="bg-white">
-    <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-        <h1 class="text-4xl font-roboto tracking-tight text-gray-900 capitalize">{{ catalog.name }} Products</h1>
+  <main class="mx-auto max-w-2xl px-4 lg:max-w-7xl lg:px-8">
+    <div class="border-b border-gray-200 pb-10 pt-24">
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900 capitalize">{{ catalogName.name }} products</h1>
+    </div>
 
-        <div class="flex items-center">
-          <!--        <Menu as="div" class="relative inline-block text-left">
-                    <div>
-                      <MenuButton class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                        Sort
-                        <ChevronDownIcon class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                                         aria-hidden="true"/>
-                      </MenuButton>
-                    </div>
+    <div class="pb-24 pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
+      <aside>
+        <h2 class="sr-only">Filters</h2>
 
-                    <transition enter-active-class="transition ease-out duration-100"
-                                enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100"
-                                leave-active-class="transition ease-in duration-75"
-                                leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
-                      <MenuItems
-                        class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        <div class="py-1">
-                          <MenuItem v-for="option in sortOptions" :key="option.name" v-slot="{ active }">
-                            <a :href="option.href"
-                               :class="[option.current ? 'font-medium text-gray-900' : 'text-gray-500', active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm']">{{
-                                option.name
-                              }}</a>
-                          </MenuItem>
-                        </div>
-                      </MenuItems>
-                    </transition>
-                  </Menu>-->
+        <button type="button" class="inline-flex items-center lg:hidden" @click="mobileFiltersOpen = true">
+          <span class="text-sm font-medium text-gray-700">Filters</span>
+          <PlusIcon class="ml-1 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true"/>
+        </button>
 
-          <button type="button" class="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7">
-            <span class="sr-only">View grid</span>
-            <Squares2X2Icon class="h-5 w-5" aria-hidden="true"/>
-          </button>
-          <button type="button" class="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
-                  @click="mobileFiltersOpen = true">
-            <span class="sr-only">Filters</span>
-            <FunnelIcon class="h-5 w-5" aria-hidden="true"/>
-          </button>
-        </div>
-      </div>
-
-      <section aria-labelledby="products-heading" class="pb-24 pt-6">
-        <h2 id="products-heading" class="sr-only">Products</h2>
-
-        <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
-          <!-- Product grid -->
-          <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:col-span-3 lg:gap-x-8">
-            <div v-for="product in products" :key="product.id"
-                 class="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white">
-              <product-card :product="product"/>
+        <div class="hidden lg:block">
+          <div class="space-y-10 divide-y divide-gray-200">
+            <div class="space-y-3 pt-6">
+              <div v-for="catalog in catalogs" :key="catalog.id" class="flex items-center">
+                <div>
+                  <div
+                    @click="reloadByCatalog(catalog.id)"
+                    class="px-4 py-3 text-blue-950 text-sm rounded  font-bold uppercase cursor-pointer">
+                    {{ catalog.name }}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      </aside>
 
+      <section aria-labelledby="product-heading" class="mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3">
+        <h2 id="product-heading" class="sr-only">Products</h2>
+
+        <div class="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 xl:grid-cols-3">
+          <div v-for="product in products" :key="product.id"
+               class="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
+          >
+            <product-card :product="product"/>
+          </div>
+        </div>
       </section>
-    </main>
-  </div>
+    </div>
+  </main>
+
+  <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  </main>
 </template>
 
 <script setup>
@@ -69,29 +55,48 @@
   import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
   import ProductCard from '@/js/components/ProductCard.vue'
+
+  import { shopStore } from '@/js/store/shop'
   import { listProductByCatalogId } from '@/js/api/product'
   import { getCatalog } from '@/js/api/catalog'
 
+
   const route = useRoute()
 
-  const catalogId = ref(Number(route.params.id))
+  const catalog = shopStore()
+  const catalogId = ref( Number( route.params.id ) )
+  const catalogs = ref( [] )
+  const catalogName = ref( "" )
+
   const products = ref( [] )
 
-  const catalog = ref( [] )
+  const breadcrumbs = [ { id: 1, name: 'Catalog', href: '/catalog' } ]
 
-  const
-    getProductsByCatalog = ( id ) => {
-      listProductByCatalogId( id ).then( res => {
-        if ( res.data ) {
-          products.value = res.data
-        }
-      } )
-    }
+  const getProductsByCatalog = ( id ) => {
+    listProductByCatalogId( id ).then( res => {
+      if ( res.data ) {
+        products.value = res.data
+      }
+    } )
+  }
+
+  const reloadByCatalog = (id) => {
+    getProductsByCatalog(id)
+    catalogId.value = id
+    getCatalogCurrentName()
+  }
+
+  const getCatalogCurrentName = () => {
+    catalogName.value = catalogs.value.find( catalog => catalog.id === catalogId.value )
+  }
 
   onBeforeMount( () => {
-    getCatalog( catalogId.value )
+    catalog.getAllCatalogs()
       .then( res => {
-        catalog.value = res.data
+        if ( res.catalogs ) {
+          catalogs.value = res.catalogs
+          getCatalogCurrentName()
+        }
       } )
   } )
 

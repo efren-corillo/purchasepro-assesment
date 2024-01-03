@@ -16,9 +16,10 @@
   import { ref, onBeforeMount, onMounted } from 'vue'
 
   import CatalogProduct from '@/js/components/CatalogCard.vue'
-  import { catalogStore } from '@/js/store/catalog'
 
-  const catalog = catalogStore();
+  import { shopStore } from '@/js/store/shop'
+
+  const catalog = shopStore();
 
   const catalogs = ref( [] )
 

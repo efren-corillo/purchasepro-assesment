@@ -1,5 +1,5 @@
 <template>
-  <div class="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96">
+  <div class="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-52">
     <img :src="product.image" :alt="product.title"
          class="h-full w-full object-cover object-center sm:h-full sm:w-full"/>
   </div>
@@ -24,9 +24,13 @@
 </template>
 
 <script setup>
+  import { shopStore } from '@/js/store/shop'
+
+  const store = shopStore()
+
   const props = defineProps( [ 'product' ] )
 
-  const addToCart = (id) => {
-    console.log(id)
+  const addToCart = ( id ) => {
+    store.addToCart(id, 1);
   }
 </script>

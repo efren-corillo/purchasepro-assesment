@@ -19,4 +19,12 @@ class Product extends Model
     {
         return $this->belongsToMany(related: Catalog::class);
     }
+
+    /**
+     * Get the cart items associated with the product.
+     */
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class, 'product_id');
+    }
 }
