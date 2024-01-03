@@ -31,11 +31,19 @@ Docker development implementation for Laravel 9.\* with:
 > - Run seeder: `php artisan db:seed`
 
 > - Install javascript dependencies: `yarn`
-> - Compile the assets: `yarn dev` / `yarn watch`  / `dcoker-compose run yarn run vite`
-> - You can access the project at: `http://localhost:8000`
-> - or
-> - Install composer dependencies: `docker-compose run php composer install`
-> - Install javascript dependencies: `docker-compose run npm install`
+> - To run the site locally you invoke
+> - `docker-compose build -d` / `yarn vite` 
+> - To build for staging.
+> - / `yarn build` / and change the .env APP_ENV=staging || production.
+> - You can access the project at: `http://localhost:8000` when developing locally or use the server ip
+> - , unless you have add a domain.
+> 
+> - To initialize laaravel in docker initiate:
+> - Install composer dependencies: `docker-compose run ppro_app composer install`
+> - Install composer dependencies: `docker-compose run ppro_app php artisan key:generate`
+> - Install composer dependencies: `docker-compose run ppro_app php artisan optimize`
+> - Install composer dependencies: `docker-compose run ppro_app php artisan migrate`
+> - Install javascript dependencies: `docker-compose run ppro_npm install`
 
 #Reference
 - https://github.com/efren-corillo/purchasepro-assesment
