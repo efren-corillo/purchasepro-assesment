@@ -61,12 +61,6 @@ service.interceptors.response.use(
 
     if (message) {
       Swal.fire({
-        title: 'Error!',
-        text: 'Do you want to continue',
-        icon: 'error',
-      })
-
-      Swal.fire({
         titleText: 'Error!',
         text: message,
         icon: 'error',

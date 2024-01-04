@@ -1,6 +1,5 @@
 # Dockerized Laravel 9 & Vue 3 App with TypeScript
-
-Docker development implementation for Laravel 9.\* with:
+Docker development implementation for Laravel 9.\*, Vue 3, vite, tailwindcss with:
 
 - Nginx
 - MySql
@@ -12,9 +11,12 @@ Docker development implementation for Laravel 9.\* with:
 ## Installation
 
 > - Clone this repository `git clone https://github.com/efren-corillo/purchasepro-assesment`
-> - Make sure you have docker installed on your local machine, you do not need to have php / mysql / redis / node installed on your machine
-> # please note that we are just running the db inside docker with a volume. Usually we would 
-> # separate the database from this server and run a different server or service like RDS, dynamoDB, etc..
+> - Make sure you have docker and docker-compose installed on your machine, 
+ you do not need to have php / mysql / redis / node installed on your machine
+
+> - please note that we are just running the db inside docker with a volume. Usually we would 
+separate the database from this server and run a different server or service like RDS, dynamoDB, etc..
+
 > - Copy `.env` file: `cp .env.example .env`
 > - Set the environment variables in `.env` file
 > - Copy `Dockerfile` file: `cp Dockerfile.example Dockerfile`
@@ -38,12 +40,23 @@ Docker development implementation for Laravel 9.\* with:
 > - You can access the project at: `http://localhost:8000` when developing locally or use the server ip
 > - , unless you have add a domain.
 > 
-> - To initialize laaravel in docker initiate:
+> - To initialize laravel in docker initiate:
 > - Install composer dependencies: `docker-compose run ppro_app composer install`
 > - Install composer dependencies: `docker-compose run ppro_app php artisan key:generate`
 > - Install composer dependencies: `docker-compose run ppro_app php artisan optimize`
 > - Install composer dependencies: `docker-compose run ppro_app php artisan migrate`
+> - Install composer dependencies: `docker-compose run ppro_app php artisan db:seed --class="CatalogsSeeder`
+> - This product seeder can be run multiple times to create many products as you want.
+> - Install composer dependencies: `docker-compose run ppro_app php artisan db:seed --class="ProductSeeder`
 > - Install javascript dependencies: `docker-compose run ppro_npm install`
 
-#Reference
-- https://github.com/efren-corillo/purchasepro-assesment
+> ### Demo
+> 
+> The Application Url:
+> http://18.136.193.232/
+> 
+> Mailhog Url
+> http://18.136.193.232:8025/#
+
+> ### Reference
+> - https://github.com/efren-corillo/purchasepro-assesment

@@ -15,9 +15,9 @@
       <p class="basis-1/2 font-medium text-gray-900">${{ product.price }}</p>
       <div
         @click="addToCart(product.id)"
-        class="basis-1/4 pp_card__button"
+        class="pp_card__button text-center"
       >
-        <i class="fa-solid fa-cart-plus"></i>
+        <ShoppingCartIcon class="size-6 mx-4"/>
       </div>
     </div>
   </div>
@@ -26,6 +26,7 @@
 <script setup>
   import { ref } from 'vue'
   import { shopStore } from '@/js/store/shop'
+  import { ShoppingCartIcon } from '@heroicons/vue/24/solid'
 
   const store = shopStore()
 

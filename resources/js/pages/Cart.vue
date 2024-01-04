@@ -4,12 +4,17 @@
   import { RadioGroup, RadioGroupDescription, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue'
   import { CheckCircleIcon, PlusIcon, MinusIcon, TrashIcon } from '@heroicons/vue/20/solid'
   import { confirmOrderApi, deleteCartItemApi, updateCartQuantity } from '@/js/api/product'
+  import { inject } from 'vue'
+
+  import router from '@/js/router'
+
+  const swal = inject('$swal')
 
   const store = shopStore()
 
-  const cartItems = ref( [] )
-
   const isLoading = ref( false )
+
+  const cartItems = ref( [] )
 
   const customer = ref( {
     email: '',
@@ -83,7 +88,8 @@
       isCardNumberValid.value &&
       isCardNameValid.value &&
       isCardExpirationValid.value &&
-      isCardCvcValid.value
+      isCardCvcValid.value &&
+      cartItems.value.length !== 0
     )
   } )
 
@@ -119,7 +125,7 @@
   }
 
   const updateQuantity = ( productId, value ) => {
-    quantities[productId] = value
+
     const product = cartItems.value.find( p => p.id === productId )
 
     if ( product ) {
@@ -127,6 +133,7 @@
         .then( res => {
           if ( res.data || res.data !== undefined ) {
             product.quantity = value
+            quantities[productId] = value
             computeSubTotal()
             store.triggerNotificationAction( 'Quantity updated successfully.', 'success' )
           } else {
@@ -138,13 +145,15 @@
     }
   }
   const DeductQuantity = ( id ) => {
-    if ( cartItems.value[id - 1].quantity > 1 ) {
-      const qty = cartItems.value[id - 1].quantity - 1
+    const item = cartItems.value.find( obj => obj.id === id )
+    if ( item.quantity > 1 ) {
+      const qty = item.quantity - 1
 
       updateCartQuantity( { "id": id, "quantity": qty } )
         .then( res => {
           if ( res.data || res.data !== undefined ) {
-            cartItems.value[id - 1].quantity -= 1
+            item.quantity -= 1
+            quantities[id] -= 1
             computeSubTotal()
             store.triggerNotificationAction( 'Quantity updated successfully.', 'success' )
           } else {
@@ -156,12 +165,14 @@
     }
   }
   const AddQuantity = ( id ) => {
-    const qty = cartItems.value[id - 1].quantity + 1
+    const item = cartItems.value.find( obj => obj.id === id )
+    const qty = item.quantity + 1
 
     updateCartQuantity( { "id": id, "quantity": qty } )
       .then( res => {
         if ( res.data || res.data !== undefined ) {
-          cartItems.value[id - 1].quantity += 1
+          item.quantity += 1
+          quantities[id] += 1
           computeSubTotal()
           store.triggerNotificationAction( 'Quantity updated successfully.', 'success' )
         } else {
@@ -192,7 +203,16 @@
     } )
       .then( res => {
         if ( res.status == 200 ) {
+          resetAllFields()
           store.triggerNotificationAction( res.message, 'success' )
+
+          swal.fire( {
+            title: 'Success!',
+            text: 'Your order is on route. Please check your email for the order details.',
+            icon: 'info'
+          } ).then( () => {
+            router.push('/catalog')
+          } )
         } else {
           store.triggerNotificationAction( 'Processing order failed.', 'failed' )
         }
@@ -201,12 +221,35 @@
     } )
   }
 
-  watch( selectedDeliveryMethod, ( newM, oldM ) => {
-    shippingFee.value = newM.price
+  const resetAllFields = () => {
+    getAllCartItems()
 
-  } )
+    subTotal.value = 0
+    taxes.value = 5.55
+    cartItems.value = []
 
-  onMounted( () => {
+    customer.value = {
+      email: '',
+      firstName: '',
+      lastName: '',
+      company: '',
+      address: '',
+      apartetc: '',
+      city: '',
+      country: 'United States',
+      state: '',
+      postal: '',
+      phone: '',
+      card: {
+        number: '',
+        name: '',
+        expiration: '',
+        cvc: ''
+      }
+    }
+  }
+
+  const getAllCartItems = () => {
     // get all cart Items
     store.getAllCartItemsWithProduct()
       .then( res => {
@@ -214,6 +257,15 @@
 
         computeSubTotal()
       } )
+  }
+
+  watch( selectedDeliveryMethod, ( newM, oldM ) => {
+    shippingFee.value = newM.price
+
+  } )
+
+  onMounted( () => {
+    getAllCartItems()
   } )
 </script>
 

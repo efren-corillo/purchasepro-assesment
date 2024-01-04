@@ -1,7 +1,7 @@
 @component('mail::message')
 # {{ __('Thank you for your purchase!') }}
 
-{{ __('Hi :customer_name, we\'re getting your order ready to be shipped. We will notify you when it has been sent.', ['customer_name' => $order->firstName . ' ' . $order->lastName]) }}
+{{ __('Hi '.$order->first_name.' '.$order->last_name.', we\'re getting your order ready to be shipped. We will notify you when it has been sent.', ['customer_name' => $order->firstName . ' ' . $order->lastName]) }}
 
 @component('mail::table')
     | {{ __('Order summary') }} |   |   |
