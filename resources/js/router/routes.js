@@ -1,3 +1,8 @@
+// @ts-check
+
+/**
+ * @type {import('vue-router').RouteRecordRaw[]}
+ */
 const routes = [
   // main routes
   {
