@@ -66,18 +66,13 @@ services:
     ports:
       - "1025:1025" # SMTP server
       - "8025:8025" # Web interface
-    networks:
-      - webapp
-
-  redis:
-    image: redis:4.0
-    container_name: ppro_redis
-    ports:
-      - "6379:6379"
+    volumes:
+      - mailhog_data:/mailhog_data
     networks:
       - webapp
 
 volumes:
   mysql:
     driver: local
+  mailhog_data:
 
