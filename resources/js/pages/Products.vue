@@ -4,14 +4,14 @@
       <h1 class="text-4xl font-bold tracking-tight text-gray-900 capitalize">{{ catalogName.name }} products</h1>
     </div>
 
-<!--    <div class="w-full pb-24 pt-12">-->
-      <div class="pb-24 pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
+    <!--    <div class="w-full pb-24 pt-12">-->
+    <div class="pb-24 pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
 
       <aside>
         <h2 class="sr-only">Filters</h2>
 
         <button type="button" class="inline-flex items-center lg:hidden" @click="mobileFiltersOpen = true">
-          <span class="text-sm font-medium text-gray-700">Filters</span>
+          <span class="text-sm font-medium text-gray-700">Catalogs</span>
           <PlusIcon class="ml-1 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true"/>
         </button>
 
@@ -44,7 +44,7 @@
         </div>
       </section>
     </div>
-<!--    </div>-->
+    <!--    </div>-->
   </main>
 </template>
 
@@ -61,9 +61,14 @@
   const route = useRoute()
 
   const catalog = shopStore()
+
   const catalogId = ref( Number( route.params.id ) )
+
   const catalogs = ref( [] )
+
   const catalogName = ref( "" )
+
+  const mobileFiltersOpen = ref( false )
 
   const products = ref( [] )
 

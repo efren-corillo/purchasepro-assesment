@@ -14,10 +14,4 @@
 
 <script setup>
   const props = defineProps( [ 'catalog' ] )
-
-  console.log( props.catalog )
 </script>
-
-<style lang="scss" scoped>
-
-</style>

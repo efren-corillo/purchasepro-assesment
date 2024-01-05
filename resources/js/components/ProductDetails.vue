@@ -45,13 +45,13 @@
                 <div class="flex items-center">
                   <h3 class="text-left">Rating: </h3>
                   <StarIcon v-for="rating in [0, 1, 2, 3, 4]" :key="rating"
-                            :class="[obj.rating.rate > rating ? 'text-indigo-500' : 'text-gray-300', 'h-5 w-5 flex-shrink-0']"
+                            :class="[obj.rate > rating ? 'text-indigo-500' : 'text-gray-300', 'h-5 w-5 flex-shrink-0']"
                             aria-hidden="true"/>
                 </div>
-                <p class="sr-only">{{ obj.rating.rate }} out of 5 stars</p>
+                <p class="sr-only">{{ obj.rate }} out of 5 stars</p>
               </div>
               <div class="flex items-center">
-                Reviews: {{ obj.rating.count }}
+                Reviews: {{ obj.count }}
               </div>
             </div>
 
@@ -114,16 +114,15 @@
 </template>
 
 <script setup>
-  import { ref, onMounted } from 'vue'
+  import { ref, onBeforeMount } from 'vue'
   import { shopStore } from '@/js/store/shop'
 
   import {
     Disclosure,
     DisclosureButton,
     DisclosurePanel,
-    Tab,
     TabGroup,
-    TabList, TabPanel,
+    TabPanel,
     TabPanels
   } from '@headlessui/vue'
   import { StarIcon } from '@heroicons/vue/20/solid'
@@ -136,14 +135,17 @@
 
   const emit = defineEmits( [ 'close' ] )
 
-  const obj = ref( null )
+  const obj = ref( {
+    rating: 0,
+    count: 0
+  } )
 
   const addToCart = async ( id ) => {
     await store.addToCart( id, 1 )
     emit( 'close' )
   }
 
-  onMounted(() => {
+  onBeforeMount(() => {
     if( typeof props.product.rating !== 'object' )
       obj.value = JSON.parse(props.product.rating);
   })
