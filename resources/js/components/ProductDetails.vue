@@ -8,7 +8,8 @@
           <TabGroup as="div" class="flex flex-col-reverse">
             <TabPanels class="aspect-h-1 aspect-w-1 w-full">
               <TabPanel>
-                <img :src="product.image" :alt="product.title" class="h-full w-full object-cover object-center sm:rounded-lg"/>
+                <img :src="product.image" :alt="product.title"
+                     class="h-full w-full object-cover object-center sm:rounded-lg"/>
               </TabPanel>
             </TabPanels>
           </TabGroup>
@@ -23,7 +24,7 @@
             </div>
 
             <!-- Reviews -->
-            <div class="mt-3 text-gray-500">
+            <div v-if="typeof product.rating === 'object'" class="mt-3 text-gray-500">
               <h3 class="sr-only">Rating: </h3>
               <div class="flex items-center">
                 <div class="flex items-center">
@@ -32,10 +33,25 @@
                             :class="[product.rating.rate > rating ? 'text-indigo-500' : 'text-gray-300', 'h-5 w-5 flex-shrink-0']"
                             aria-hidden="true"/>
                 </div>
-                <p class="sr-only">{{ product.rating }} out of 5 stars</p>
+                <p class="sr-only">{{ product.rating.rate }} out of 5 stars</p>
               </div>
               <div class="flex items-center">
-                Reviews: {{product.rating.count}}
+                Reviews: {{ product.rating.count }}
+              </div>
+            </div>
+            <div v-else class="mt-3 text-gray-500">
+              <h3 class="sr-only">Rating: </h3>
+              <div class="flex items-center">
+                <div class="flex items-center">
+                  <h3 class="text-left">Rating: </h3>
+                  <StarIcon v-for="rating in [0, 1, 2, 3, 4]" :key="rating"
+                            :class="[obj.rating.rate > rating ? 'text-indigo-500' : 'text-gray-300', 'h-5 w-5 flex-shrink-0']"
+                            aria-hidden="true"/>
+                </div>
+                <p class="sr-only">{{ obj.rating.rate }} out of 5 stars</p>
+              </div>
+              <div class="flex items-center">
+                Reviews: {{ obj.rating.count }}
               </div>
             </div>
 
@@ -98,6 +114,7 @@
 </template>
 
 <script setup>
+  import { ref, onMounted } from 'vue'
   import { shopStore } from '@/js/store/shop'
 
   import {
@@ -119,11 +136,16 @@
 
   const emit = defineEmits( [ 'close' ] )
 
+  const obj = ref( null )
+
   const addToCart = async ( id ) => {
     await store.addToCart( id, 1 )
-    emit('close')
+    emit( 'close' )
   }
 
-  console.log(props.product)
+  onMounted(() => {
+    if( typeof props.product.rating !== 'object' )
+      obj.value = JSON.parse(props.product.rating);
+  })
 
 </script>
