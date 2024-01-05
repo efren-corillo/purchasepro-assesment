@@ -84,15 +84,15 @@ class ProductController extends Controller
 
     /**
      * Returns a list of products related to the category id.
-     * @param $id
      *
-     * @return \Illuminate\Http\JsonResponse
+     *  @param  int  $id
+     *  @return \Illuminate\Http\JsonResponse
      */
     public function listProductByCatalog($id): \Illuminate\Http\JsonResponse
     {
         $catalog = Catalog::with('products')->find($id);
 
-        if (!$catalog) {
+        if (! $catalog) {
             return response()->json(['message' => 'Catalog not found'], 404);
         }
 

@@ -3,6 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Inject the APP_ENV variable as a meta tag -->
+        <meta name="app-env" content="{{ app()->environment() }}">
 
         <title>{{ config('app.name') }}</title>
 

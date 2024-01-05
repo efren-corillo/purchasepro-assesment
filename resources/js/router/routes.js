@@ -1,4 +1,13 @@
 // @ts-check
+/**
+ * Get the APP_ENV value from the meta tag
+ */
+const appEnv = document.querySelector('meta[name="app-env"]')?.getAttribute('content');
+
+/**
+ * Check if the current environment is local
+ */
+const isLocalEnv = appEnv === 'local';
 
 /**
  * @type {import('vue-router').RouteRecordRaw[]}
@@ -46,5 +55,15 @@ const routes = [
     ]
   }
 ]
+
+/**
+ * Only add the /test route in local environment
+ */
+if (isLocalEnv) {
+  routes[0].children.push({
+    path: "/test",
+    component: () => import('@/js/pages/Test.vue')
+  });
+}
 
 export default routes
