@@ -1,10 +1,12 @@
 <template>
-  <main class="mx-auto max-w-2xl px-4 lg:max-w-7xl lg:px-8">
-    <div class="border-b border-gray-200 pb-10 pt-24">
+  <main class="flex flex-col w-full max-w-2xl lg:max-w-7xl mx-auto">
+    <div class="w-full border-b border-gray-200 pb-10 pt-4">
       <h1 class="text-4xl font-bold tracking-tight text-gray-900 capitalize">{{ catalogName.name }} products</h1>
     </div>
 
-    <div class="pb-24 pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
+<!--    <div class="w-full pb-24 pt-12">-->
+      <div class="pb-24 pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
+
       <aside>
         <h2 class="sr-only">Filters</h2>
 
@@ -37,29 +39,24 @@
           <div v-for="product in products" :key="product.id"
                class="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
           >
-            <product-card :product="product"/>
+            <products-card :product="product"/>
           </div>
         </div>
       </section>
     </div>
-  </main>
-
-  <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<!--    </div>-->
   </main>
 </template>
 
 <script setup>
   import { ref, onMounted, onBeforeMount } from 'vue'
-  import { useRoute, useRouter } from "vue-router"
-  import { ChevronDownIcon, FunnelIcon, Squares2X2Icon } from '@heroicons/vue/20/solid'
-  import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+  import { useRoute } from "vue-router"
+  import { PlusIcon } from '@heroicons/vue/20/solid'
 
-  import ProductCard from '@/js/components/ProductCard.vue'
+  import ProductsCard from '@/js/components/ProductsCard.vue'
 
   import { shopStore } from '@/js/store/shop'
   import { listProductByCatalogId } from '@/js/api/product'
-  import { getCatalog } from '@/js/api/catalog'
-
 
   const route = useRoute()
 
@@ -80,8 +77,8 @@
     } )
   }
 
-  const reloadByCatalog = (id) => {
-    getProductsByCatalog(id)
+  const reloadByCatalog = ( id ) => {
+    getProductsByCatalog( id )
     catalogId.value = id
     getCatalogCurrentName()
   }
@@ -100,7 +97,7 @@
       } )
   } )
 
-  onMounted( () => {
-    getProductsByCatalog( catalogId.value )
+  onMounted( async () => {
+    await getProductsByCatalog( catalogId.value )
   } )
 </script>

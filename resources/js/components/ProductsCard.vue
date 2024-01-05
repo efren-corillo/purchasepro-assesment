@@ -5,10 +5,10 @@
   </div>
   <div class="flex flex-1 flex-col space-y-2 p-4">
     <h3 class="text-sm font-roboto text-gray-900 capitalize">
-      <a :href="product.href">
+      <span @click="showProductDetail(product.id)">
         <span aria-hidden="true" class="absolute inset-0"/>
         {{ product.title }}
-      </a>
+      </span>
     </h3>
     <p class="text-sm text-gray-500">{{ product.description }}</p>
     <div class="flex flex-row place-content-between">
@@ -24,15 +24,39 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue'
+  import { createApp, h, getCurrentInstance } from 'vue'
   import { shopStore } from '@/js/store/shop'
   import { ShoppingCartIcon } from '@heroicons/vue/24/solid'
 
-  const store = shopStore()
+  import ProductDetails from '@/js/components/ProductDetails.vue'
 
+  const store = shopStore()
+  const { proxy } = getCurrentInstance();
   const props = defineProps( [ 'product' ] )
 
   const addToCart = ( id ) => {
     store.addToCart( id, 1 )
+  }
+
+  const showProductDetail = ( id ) => {
+    const container = document.createElement('div')
+
+    let app = createApp({
+      render: () => h(ProductDetails, {
+        product: props.product,
+        onClose: () => {
+          proxy.$swal.close()
+        }
+      })
+    })
+
+    app.mount(container);
+
+    proxy.$swal.fire({
+      html: container,
+      showConfirmButton: false,
+    }).then(() => {
+      app.unmount(container);
+    })
   }
 </script>

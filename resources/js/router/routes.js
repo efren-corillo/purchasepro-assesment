@@ -38,12 +38,12 @@ const routes = [
         name: "cart",
         component: () => import('@/js/pages/Cart.vue')
         // meta: { requiresAuth: true }
+      },
+      {
+        path: "/test",
+        component: () => import('@/js/pages/Test.vue')
       }
     ]
-  },
-  {
-    path: "/test",
-    component: () => import('@/js/pages/Test.vue')
   }
 ]
 
